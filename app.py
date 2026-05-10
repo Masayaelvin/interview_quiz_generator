@@ -100,9 +100,8 @@ def generate_questions_with_gemini(job_title: str) -> List[str]:
         logger.error("Gemini API request failed: %s", exc)
         logger.debug(traceback.format_exc())
         raise RuntimeError(
-            "Gemini API request failed. "
-            "Check that your GEMINI_API_KEY is valid and the API is reachable."
-        ) from exc
+            "An error occurred while fetching results. Please try again shortly."
+        )
 
     # ---- 5. Extract text from response ----
     raw_text = getattr(response, "text", None) or ""
@@ -110,7 +109,9 @@ def generate_questions_with_gemini(job_title: str) -> List[str]:
 
     if not raw_text.strip():
         logger.error("Gemini returned an empty response body")
-        raise RuntimeError("Gemini returned an empty response.")
+        raise RuntimeError(
+            "An error occurred while fetching results. Please try again shortly."
+        )
 
     # Strip markdown code fences that Gemini sometimes adds despite instructions.
     cleaned = raw_text.strip()
@@ -128,7 +129,7 @@ def generate_questions_with_gemini(job_title: str) -> List[str]:
     except json.JSONDecodeError as exc:
         logger.error("JSON parse error: %s | raw text was: %r", exc, raw_text)
         raise RuntimeError(
-            f"Gemini returned unexpected format (not valid JSON). Raw: {raw_text!r}"
+            "An error occurred while fetching results. Please try again shortly."
         ) from exc
 
     # ---- 7. Validate shape ----
@@ -144,8 +145,7 @@ def generate_questions_with_gemini(job_title: str) -> List[str]:
             parsed,
         )
         raise RuntimeError(
-            "Gemini did not return exactly 3 questions as a JSON array of strings. "
-            f"Got: {parsed!r}"
+            "An error occurred while fetching results. Please try again shortly."
         )
 
     logger.info("Successfully generated %d questions for %r", len(parsed), job_title)
@@ -176,7 +176,8 @@ def generate_questions() -> "FlaskResponse":
         # Log the full traceback server-side; return a clear message to the client.
         logger.error("Error in generate_questions_with_gemini: %s", exc)
         logger.debug(traceback.format_exc())
-        return jsonify({"error": str(exc)}), 500
+        # Return generic, non-provider-specific error to the client.
+        return jsonify({"error": "An error occurred while generating questions."}), 500
 
 
 # FlaskResponse forward reference for type checkers.
