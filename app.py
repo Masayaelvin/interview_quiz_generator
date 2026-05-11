@@ -13,6 +13,7 @@ import json
 import logging
 import os
 import traceback
+from pathlib import Path
 from typing import List
 
 from dotenv import load_dotenv
@@ -20,10 +21,17 @@ from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 
 # Configure logging early so every module uses it.
+# Create log file in the app's root directory using relative paths
+log_file = Path(__file__).parent / "q_app.log"
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s  %(levelname)-8s  %(name)s: %(message)s",
     datefmt="%H:%M:%S",
+    handlers=[
+        logging.FileHandler(log_file),
+        logging.StreamHandler(),
+    ],
 )
 logger = logging.getLogger(__name__)
 
