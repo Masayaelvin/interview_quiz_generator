@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 app = Flask(__name__)
+application = app
 CORS(app)
 
 
