@@ -16,13 +16,6 @@ Generate 3 role-specific interview questions from a job title using Google Gemin
    python -m venv venv
    ```
 
-3. Activate it:
-
-   **Windows (cmd):**
-   ```bash
-   venv\Scripts\activate
-   ```
-
 ## Installation
 
 1. Clone / open this project folder.
@@ -37,6 +30,11 @@ Generate 3 role-specific interview questions from a job title using Google Gemin
    **Windows (cmd):**
    ```bash
    venv\Scripts\activate
+   ```
+
+   **Linux / macOS:**
+   ```bash
+   source venv/bin/activate
    ```
 
 4. Install or upgrade dependencies:
