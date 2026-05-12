@@ -18,7 +18,6 @@ from typing import List
 
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
-from flask_cors import CORS
 
 # Configure logging early so every module uses it.
 # Create log file in the app's root directory using relative paths
@@ -40,7 +39,6 @@ load_dotenv()
 
 app = Flask(__name__)
 application = app
-CORS(app)
 
 
 @app.route("/")
