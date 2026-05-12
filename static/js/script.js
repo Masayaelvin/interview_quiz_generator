@@ -1,4 +1,4 @@
-      const API_URL = "http://generator.jaliwafreshexportersltd.co.ke/interview_questions/generate-questions";
+      const API_URL = "https://generator.jaliwafreshexportersltd.co.ke/interview_questions/generate-questions";
 
       const form = document.getElementById("jobForm");
       const jobTitleInput = document.getElementById("jobTitle");
